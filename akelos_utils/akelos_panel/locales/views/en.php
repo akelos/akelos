@@ -102,4 +102,6 @@ config/environments/development.php file',
   'Ooops! Can\'t find the guide you\'re looking for' => 'Ooops! Can\'t find the guide you\'re looking for',
   'Akelos is a trademark of <a href="http://www.bermi.org/">Bermi Ferrer</a>.' => 'Akelos is a trademark of <a href="http://www.bermi.org/">Bermi Ferrer</a>.',
   'On' => 'On',
+  'Active Record Basics' => 'Active Record Basics',
+  'Sintags Markup' => 'Sintags Markup',
 );
