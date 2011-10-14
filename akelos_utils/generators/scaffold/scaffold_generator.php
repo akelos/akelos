@@ -94,18 +94,6 @@ class ScaffoldGenerator extends  AkelosGenerator
             }
         }
 
-        // We check for common testing files
-        $common_testing_files = array(
-        'fixtures'.DS.'config'.DS.'config.php',
-        'fixtures'.DS.'app'.DS.'models'.DS.'shared_model.php'
-        );
-        foreach ($common_testing_files as $common_testing_file){
-            if(!file_exists(AK_TEST_DIR.DS.$common_testing_file)){
-                $this->save(AK_TEST_DIR.DS.$common_testing_file,
-                file_get_contents(AK_FRAMEWORK_DIR.DS.'test'.DS.$common_testing_file));
-            }
-        }
-
         if(file_exists($this->model_file_path)){
             require_once($this->model_file_path);
             if(class_exists($this->model_name)){
