@@ -239,25 +239,21 @@ h4. Starting up the Web Server
 
 You actually have a functional Akelos application already - after running only two commands! To see it, you need to start a web server on your development machine. You can do this by running another command:
 
+TODO: Update to serving via Apache/Nginx 
+
 <shell>
 $ ./script/server
 </shell>
 
 This will fire up an instance a simple PHP web server by default (Akelos can also use several other web servers). To see your application in action, open a browser window and navigate to +http://localhost:3000+. You should see Akelos' default information page:
 
-!/images/akelos_welcome.png(Welcome Aboard screenshot)!
+!/images/akelos_welcome.png(Akelos Dashboard screenshot)!
 
-TIP: To stop the web server, hit Ctrl+C in the terminal window where it's running. Using the PHP server Akelos requires you to stop the server; changes you make in files will not be automatically picked up by the server when using script/server. You should setup Apache for reloading changed files.
-
-The "Welcome Aboard" page is the _smoke test_ for a new Akelos application: it makes sure that you have your software configured correctly enough to serve a page. To view the page you just created, navigate to +http://localhost:3000/home/index+.
+The "Akelos Dashboard" page is the _smoke test_ for a new Akelos application: it makes sure that you have your software configured correctly enough to serve a page. To view the page you just created, navigate to +http://localhost:3000/home/index+.
 
 h4. Setting the Application Home Page
 
-You'd probably like to replace the "Welcome Aboard" page with your own application's home page. The first step to doing this is to delete the default page from your application:
-
-<shell>
-$ rm public/index.html
-</shell>
+TODO: Document disabling the Akelos Dashboard.
 
 Now, you have to tell Akelos where your actual home page is located. Open the file +config/routes.php+ in your editor. This is your application's, _routing file_, which holds entries in a special DSL (domain-specific language) that tells Akelos how to connect incoming requests to controllers and actions. At the bottom of the file you'll see the _default routes_:
 
