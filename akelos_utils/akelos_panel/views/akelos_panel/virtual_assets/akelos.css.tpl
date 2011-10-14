@@ -1105,7 +1105,6 @@ table.snippet td {
 table.snippet code{
   font-size:12px;
   font-family:monaco,"Courier New",Courier,monospace;
-  line-height:8px;
 }
 
 table.snippet td.snippet-cell{
@@ -1715,12 +1714,11 @@ tt {
 	font-family: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace;
 }
 
-div.code_container {
-  padding:0 15px 20px 0;
+div.code_container pre {
+  padding:0 15px 0 0;
 }
-.snippet-corner{
-  float:right;
-  margin:-15px -15px 0 0;
+.snippet-corner {
+  float: right;
 }
 
 code {
