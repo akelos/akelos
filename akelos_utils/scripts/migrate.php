@@ -20,12 +20,12 @@ $installer = str_replace('::','/',$installer);
 $file = AkConfig::getDir('app').DS.'installers'.DS.rtrim(join('/',array_map(array('AkInflector','underscore'), explode('/',$installer.'/'))),'/').'_installer.php';
 
 
-function ak_print_available_installers($files, $preffix = '')
+function ak_print_available_installers($files, $prefix = '')
 {
     foreach($files as $k => $file){
         if(is_string($file)){
             if(preg_match('/(.*)_installer\.php$/', $file, $match)){
-                echo ' * '.$preffix.$match[1]."\n";
+                echo ' * '.$prefix.$match[1]."\n";
             }
         }else{
             ak_print_available_installers($file, $k.'::');

@@ -114,16 +114,16 @@ if(!$skip_updating_version_number){
     }
 }
 
-$preffix = $options['app_name'].'-'.$options['version'].($options['commit']?'-'.$options['revision']:'').$options['tag'];
+$prefix = $options['app_name'].'-'.$options['version'].($options['commit']?'-'.$options['revision']:'').$options['tag'];
 
 foreach ($options['format'] as $format){
-    $file_path = "{$options['path']}/$preffix";
+    $file_path = "{$options['path']}/$prefix";
     if($format == 'tar' && empty($options['skip_gzip'])){
         $file_name = $file_path.'.tar.gz';
-        $command = "git archive --format=$format --prefix=$preffix/ {$options['revision']} | gzip > $file_name";
+        $command = "git archive --format=$format --prefix=$prefix/ {$options['revision']} | gzip > $file_name";
     }else{
         $file_name = $file_path.'.'.$format;
-        $command = "git archive --format=$format --prefix=$preffix/ {$options['revision']} > $file_name";
+        $command = "git archive --format=$format --prefix=$prefix/ {$options['revision']} > $file_name";
     }
     if(!empty($options['checksum'])){
         file_put_contents($file_path.'.checkum', md5_file($file_name));

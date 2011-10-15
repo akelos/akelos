@@ -9,7 +9,7 @@
 class <?php  echo $model_name?>TestCase extends  AkUnitTest
 {
 <?php 
-echo !empty($module_preffix) ? '    var $module = \''.trim($module_preffix,DS).'\';' : ''
+echo !empty($module_prefix) ? '    var $module = \''.trim($module_prefix,DS).'\';' : ''
 ?>
 
     function test_setup() {

@@ -96,7 +96,7 @@ class FileHandling_TestCase extends ActiveSupportUnitTest
     }
 
     public function test_mime_type_detection() {
-        // png is not in any RFC so we might want to check if it has a /x- preffix for non standard values
+        // png is not in any RFC so we might want to check if it has a /x- prefix for non standard values
         $this->assertTrue(in_array(Ak::mime_content_type(AK_PUBLIC_DIR.DS.'images'.DS.'akelos_framework_logo.png'),array('image/png','image/x-png')));
         $this->assertEqual(Ak::mime_content_type('C:\Folder\image.png'),'image/png');
     }

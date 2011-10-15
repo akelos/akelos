@@ -26,8 +26,8 @@ class ScaffoldGenerator extends  AkelosGenerator
         $this->plural_name = AkInflector::pluralize($this->singular_name);
         $this->singular_controller_name = AkInflector::underscore($this->controller_name);
 
-        $this->module_preffix = AkInflector::underscore(substr($this->controller_class_name, 0, strrpos($this->controller_class_name, '_')));
-        $this->module_preffix = empty($this->module_preffix) ? '' : DS.$this->module_preffix;
+        $this->module_prefix = AkInflector::underscore(substr($this->controller_class_name, 0, strrpos($this->controller_class_name, '_')));
+        $this->module_prefix = empty($this->module_prefix) ? '' : DS.$this->module_prefix;
 
 
         $this->files = array(
@@ -36,19 +36,19 @@ class ScaffoldGenerator extends  AkelosGenerator
          * @todo Implement generic functional tests
          */
         // 'functional_test.php' => AK_TEST_DIR.DS.'functional'.DS.'test_'.$this->controller_class_name.'.php',
-        'helper.php' => AK_HELPERS_DIR.$this->module_preffix.DS.trim($this->helper_var_name,'$').'.php',
+        'helper.php' => AK_HELPERS_DIR.$this->module_prefix.DS.trim($this->helper_var_name,'$').'.php',
         'layout' => AK_VIEWS_DIR.DS.'layouts'.DS.$this->singular_controller_name.'.tpl',
-        'view_add' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'add.tpl',
-        'view_destroy' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'destroy.tpl',
-        'view_edit' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'edit.tpl',
-        'view_listing' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'listing.tpl',
-        'view_show' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'show.tpl',
-        'form' => AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.'_form.tpl',
+        'view_add' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'add.tpl',
+        'view_destroy' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'destroy.tpl',
+        'view_edit' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'edit.tpl',
+        'view_listing' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'listing.tpl',
+        'view_show' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'show.tpl',
+        'form' => AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.'_form.tpl',
         );
 
         $this->user_actions = array();
         foreach ((array)@$this->actions as $action){
-            $this->user_actions[$action] = AK_VIEWS_DIR.$this->module_preffix.DS.$this->singular_controller_name.DS.$action.'.tpl';
+            $this->user_actions[$action] = AK_VIEWS_DIR.$this->module_prefix.DS.$this->singular_controller_name.DS.$action.'.tpl';
         }
 
     }
