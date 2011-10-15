@@ -510,7 +510,7 @@ defined('AK_VERBOSE_INSTALLER')                         || define('AK_VERBOSE_IN
 defined('AK_HIGH_LOAD_MODE')                            || define('AK_HIGH_LOAD_MODE', false);
 defined('AK_AUTOMATIC_SESSION_START')                   || define('AK_AUTOMATIC_SESSION_START', !AK_HIGH_LOAD_MODE);
 defined('AK_APP_NAME')                                  || define('AK_APP_NAME', 'Application');
-defined('JAVASCRIPT_DEFAULT_SOURCES')                   || define('JAVASCRIPT_DEFAULT_SOURCES','prototype,event_selectors,scriptaculous');
+defined('AK_JAVASCRIPT_DEFAULT_SOURCES')                || define('AK_JAVASCRIPT_DEFAULT_SOURCES','prototype,event_selectors,scriptaculous');
 defined('AK_DATE_HELPER_DEFAULT_PREFIX')                || define('AK_DATE_HELPER_DEFAULT_PREFIX', 'date');
 defined('AK_JAVASCRIPT_PATH')                           || define('AK_JAVASCRIPT_PATH', AK_PUBLIC_DIR.DS.'javascripts');
 defined('AK_DEFAULT_LOCALE_NAMESPACE')                  || define('AK_DEFAULT_LOCALE_NAMESPACE', null);

@@ -84,7 +84,7 @@ class AkAssetTagHelper extends AkBaseHelper
     public function _get_javascript_included_defaults() {
         static $defaults, $plugin_defaults = array();
         if(empty($defaults)){
-            $defaults = array_unique(array_diff(array_filter(explode(',',JAVASCRIPT_DEFAULT_SOURCES.
+            $defaults = array_unique(array_diff(array_filter(explode(',',AK_JAVASCRIPT_DEFAULT_SOURCES.
             ','.(file_exists(AkConfig::getDir('public').DS.'javascript'.DS.'application.js') ? 'application' : '' )
             ),'trim'),array('')));
         }
