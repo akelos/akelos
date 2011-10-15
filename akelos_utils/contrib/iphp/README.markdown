@@ -10,7 +10,13 @@ iphp is an interactive php shell that solves a number of painful problems with n
 * support for require/include; you can load php files within iphp
 * extensible command system
 
-Example:
+INSTALLATION
+============
+
+pear install apinstein.pearfarm.org/iphp
+
+EXAMPLE
+=======
 
     php> new ArrayObject(array(1,2))
     
@@ -26,6 +32,6 @@ Example:
     php> \help 
     alias(es)                     <help>
     -------------------------------------------------------
-    exit,die,bye,quit             No help available.
+    exit,die,bye,quit             Quit the shell.
     reload                        Re-initialize the iphp state so it's just as if you quit and re-started.
-    help,?                        No help available.
+    help,?                        View a list of all installed commands.

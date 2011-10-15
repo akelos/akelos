@@ -31,6 +31,7 @@ class iphp
     const OPT_TMP_DIR       = 'tmp_dir';
     const OPT_PROMPT_HEADER = 'prompt_header';
     const OPT_PHP_BIN       = 'php_bin';
+    const OPT_COMMANDS      = 'commands';
 
     /**
      * Constructor
@@ -77,7 +78,7 @@ class iphp
             {
                 $help = "No help available.";
             }
-            print str_pad(join(',', $aliases), $pad, ' ', STR_PAD_RIGHT) . "{$help}\n";
+            print str_pad($this->commandEscapeChar . join(",{$this->commandEscapeChar}", $aliases), $pad, ' ', STR_PAD_RIGHT) . "{$help}\n";
         }
     }
 
@@ -91,6 +92,7 @@ class iphp
                                             self::OPT_TMP_DIR       => NULL,
                                             self::OPT_PROMPT_HEADER => $this->getPromptHeader(),
                                             self::OPT_PHP_BIN       => $this->getDefaultPhpBin(),
+                                            self::OPT_COMMANDS      => array(),
                                           ), $options);
     }
 
@@ -143,8 +145,11 @@ class iphp
 
     private function initializeCommands()
     {
+        $commandsToLoad = array('iphp_command_exit', 'iphp_command_reload', 'iphp_command_help');
+        $commandsToLoad = array_merge($commandsToLoad, $this->options[self::OPT_COMMANDS]);
         $this->internalCommands = array();
-        foreach (array(new iphp_command_exit, new iphp_command_reload, new iphp_command_help) as $command) {
+        foreach ($commandsToLoad as $commandName) {
+            $command = new $commandName;
             $names = $command->name();
             if (!is_array($names))
             {
@@ -268,6 +273,12 @@ END;
             readline_add_history($command);
             readline_write_history($this->historyFile());
         }
+        
+        # // Replacing echo with print()
+        # $command = preg_replace('/^echo (.+)$/', 'print($1)', rtrim($command, ';'));
+        # 
+        # // Replacing require with require()
+        # $command = preg_replace('/^require (.+)$/', 'require($1)', rtrim($command, ';'));
 
         $command = preg_replace('/^\//', '$_', $command);  // "/" as a command will just output the last result.
 
@@ -275,6 +286,12 @@ END;
         if (!is_array($requires))
         {
             $requires = array();
+        }
+
+        if(preg_match('/^(echo|require) /', $command)){
+            $command = rtrim($command, ';').';';
+        }else{
+            $command = preg_match('/^(foreach|for|if|do|while) *[\({]/', $command) ? $command : '$_ = '.$command.';';
         }
 
         $parsedCommand = "<?php
@@ -287,7 +304,7 @@ if (is_array(\$__commandState))
     extract(\$__commandState);
 }
 ob_start();
-\$_ = {$command};
+$command
 \$__out = ob_get_contents();
 ob_end_clean();
 \$__allData = get_defined_vars();
@@ -315,7 +332,7 @@ file_put_contents('{$this->tmpFileShellCommandState}', serialize(\$__allData));
             }
 
             $lastState = unserialize(file_get_contents($this->tmpFileShellCommandState));
-            $this->lastResult = $lastState['_'];
+            $this->lastResult = @$lastState['_'];
             print $this->outputPrompt;
             if ($lastState['__out'])
             {
@@ -408,8 +425,8 @@ file_put_contents('{$this->tmpFileShellCommandState}', serialize(\$__allData));
             readline_completion_function(array($this, 'readlineCompleter'));
         }
 
-        // run repl loop.
-        if (function_exists('readline'))
+        // run repl loop. libedit defines readline but not callback handlers so check for both
+        if (function_exists('readline') && function_exists('readline_callback_handler_install'))
         {
             // readline automatically re-prints the prompt after the callback runs, so the only way to prevent double-prompts is to do it this way until we figure out something better
             readline_callback_handler_install($this->inputPrompt, array($this, 'doCommand'));

@@ -17,7 +17,7 @@ if(defined('AK_CONSOLE_MODE')){
 
     define('AK_CONSOLE_MODE', true);
     defined('DS')           || define('DS', DIRECTORY_SEPARATOR);
-    defined('AK_BASE_DIR')  || define('AK_BASE_DIR', str_replace(DS.'akelos'.DS.'active_support'.DS.'utils'.DS.'scripts'.DS.'console.php','',__FILE__));
+    defined('AK_BASE_DIR')  || define('AK_BASE_DIR', $_SERVER['PWD']);
 
     $_app_config_file = AK_BASE_DIR.DS.'config'.DS.'config.php';
 

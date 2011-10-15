@@ -48,4 +48,3 @@ class iphp_command_reload extends iphp_command
         return "Re-initialize the iphp state so it's just as if you quit and re-started.";
     }
 }
-
