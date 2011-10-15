@@ -104,4 +104,6 @@ config/environments/development.php file',
   'On' => 'On',
   'Active Record Basics' => 'Active Record Basics',
   'Sintags Markup' => 'Sintags Markup',
+  'The Akelos terminal is running as user <strong>%user</strong>.' => 'The Akelos terminal is running as user <strong>%user</strong>.',
+  'To disable the terminal, remove AK_ENABLE_TERMINAL_ON_DEV from your config.php file' => 'To disable the terminal, remove AK_ENABLE_TERMINAL_ON_DEV from your config.php file',
 );
