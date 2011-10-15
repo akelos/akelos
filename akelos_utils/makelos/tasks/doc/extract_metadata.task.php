@@ -1,5 +1,5 @@
 <?php 
-// Command line options are accesible via $options
+// Command line options are accessible via $options
 
 if(!empty($options['help'])){
     die(<<<HELP
