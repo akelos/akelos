@@ -42,24 +42,24 @@ function ak_show_source_line($file, $line, $highlight = '', $params = array()) {
 
 function ak_show_params($params, $number_of_recursions = 0, $currently_inspecting = 'Array') {
 
-    $preffix = (str_repeat('        ',$number_of_recursions));
+    $prefix = (str_repeat('        ',$number_of_recursions));
     if($number_of_recursions == 10){
-        return $preffix.$currently_inspecting.' [recursion limit reached]';
+        return $prefix.$currently_inspecting.' [recursion limit reached]';
     }
     $number_of_recursions++;
     $result = '';
     if(!empty($params)){
         foreach ((array)$params as $k => $param){
 
-            $result .=  $preffix."(".gettype($param).'): ';
+            $result .=  $prefix."(".gettype($param).'): ';
             if(is_scalar($param)){
                 $result .=  $param;
             }elseif (is_object($param)){
                 $result .=  trim(get_class($param));
             }else{
-                $result .=  " => (\n        $preffix".(!is_numeric($k)?"$k => ":'').trim(ak_show_params($param, $number_of_recursions))."\n$preffix)";
+                $result .=  " => (\n        $prefix".(!is_numeric($k)?"$k => ":'').trim(ak_show_params($param, $number_of_recursions))."\n$prefix)";
             }
-            $result .=  $preffix." \n";
+            $result .=  $prefix." \n";
         }
     }
     if(strlen($result) > 400){
