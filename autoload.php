@@ -420,13 +420,8 @@ if(AK_ENVIRONMENT != 'setup'){
 
 if(!AK_CLI && AK_WEB_REQUEST){
 
-    if (!defined('AK_SITE_URL_SUFFIX')){
-        $__ak_site_url_suffix_userdir = substr(AK_REQUEST_URI,1,1) == '~' ? substr(AK_REQUEST_URI, 0, strpos(AK_REQUEST_URI, '/', 1)) : '';
-        $__ak_site_url_suffix = '/'.trim(str_replace(join(DS,array_diff((array)explode('/',AK_REQUEST_URI.'/'), (array)explode(DS,AK_BASE_DIR.DS))), '', AK_REQUEST_URI), '/');
-        //$__ak_site_url_suffix = str_replace(array(join(DS,array_diff((array)@explode(DS,AK_BASE_DIR), (array)@explode('/',AK_REQUEST_URI))), DS,'//'), array('','/','/'), AK_BASE_DIR);
-        define('AK_SITE_URL_SUFFIX', $__ak_site_url_suffix_userdir.$__ak_site_url_suffix);
-        unset($__ak_site_url_suffix_userdir, $__ak_site_url_suffix);
-    }
+    defined('AK_SITE_URL_SUFFIX')   || define('AK_SITE_URL_SUFFIX', '/');
+
     defined('AK_AUTOMATIC_SSL_DETECTION')   || define('AK_AUTOMATIC_SSL_DETECTION', 1);
     defined('AK_REMOTE_IP')                 || define('AK_REMOTE_IP',preg_replace('/,.*/','',((!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : (!empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : (!empty($_ENV['HTTP_X_FORWARDED_FOR']) ? $_ENV['HTTP_X_FORWARDED_FOR'] : (empty($_ENV['REMOTE_ADDR']) ? false : $_ENV['REMOTE_ADDR']))))));
     defined('AK_SERVER_STANDARD_PORT')      || define('AK_SERVER_STANDARD_PORT', AK_PROTOCOL == 'https://' ? '443' : '80');
