@@ -177,13 +177,15 @@ class AkPluginManager
 
         $options = array_merge($default_options, $options);
 
-        $plugin_name = Ak::sanitize_include($plugin_name, 'high');
-
         $install_method = $this->guessBestInstallMethod($options);
 
-        if($install_method != 'local directory'){
-            $repository = $this->getRepositoryForPlugin($plugin_name, $repository);
+        if($install_method != 'git'){
+            $plugin_name = Ak::sanitize_include($plugin_name, 'high');
+            if($install_method != 'local directory'){
+                $repository = $this->getRepositoryForPlugin($plugin_name, $repository);
+            }
         }
+
         if(!$options['force'] && is_dir(AK_PLUGINS_DIR.DS.$plugin_name)){
             AkConsole::displayError(Ak::t('Destination directory is not empty. Use force option to overwrite exiting files.'), true);
         }else{
@@ -200,6 +202,8 @@ class AkPluginManager
         }
         if(!empty($options['parameters']) && is_dir($options['parameters'])){
             return 'local directory';
+        }elseif($this->canUseGit()){
+                return 'git';
         }elseif($this->canUseSvn()){
             if(!empty($options['externals']) && $this->_shouldUseSvnExternals()){
                 return 'externals';
@@ -210,6 +214,10 @@ class AkPluginManager
         }else{
             return 'http';
         }
+    }
+
+    public function canUseGit() {
+        return strstr(`git --version`, 'git version');
     }
 
     public function canUseSvn() {
@@ -289,6 +297,8 @@ class AkPluginManager
     public function getRepositoryForPlugin($plugin_name, $repository = null) {
         if(empty($repository)){
             $available_plugins = $this->getPlugins();
+        }elseif($this->_isGitRepo($plugin_name)){
+            return $repository;
         }else{
             $available_plugins = array();
             $this->_addAvailablePlugins_($repository, $available_plugins);
@@ -502,6 +512,26 @@ class AkPluginManager
     private function _updateUsingCheckout($name) {
         $plugin_dir = AK_PLUGINS_DIR.DS.$name;
         `svn update $plugin_dir`;
+    }
+
+    private function _isGitRepo($repository)
+    {
+        return substr($repository, -4) == '.git';
+    }
+
+    private function _shouldUseGitSubmodule() {
+        return is_dir(AK_BASE_DIR.DS.'.git');
+    }
+
+    private function _installUsingGit($name, $uri, $rev = null, $force = false) {
+        $rev = empty($rev) ? '' : " -r $rev ";
+        $force = $force ? ' --force ' : '';
+        $plugin_dir = AK_PLUGINS_DIR.DS.substr($name, 0, -4);
+        if($this->_shouldUseGitSubmodule()){
+            echo `git submodule add $rev $uri/$name $plugin_dir`;
+        }else{
+            echo `git clone $force $rev $uri/$name $plugin_dir`;
+        }
     }
 
     private function _installUsingLocalDirectory($name, $path, $rev = null) {

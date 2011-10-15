@@ -37,6 +37,9 @@ EXAMPLES
   Install a plugin:
     {$script_name} install acts_as_versioned
     
+  Install a plugin from a git repository:
+    {$script_name} install https://github.com/bermi/admin.git
+
   Install a plugin from a subversion URL:
     {$script_name} install http://svn.akelos.org/plugins/acts_as_versioned
 
