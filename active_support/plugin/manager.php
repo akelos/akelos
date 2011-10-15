@@ -345,7 +345,9 @@ class AkPluginManager
      * @access private
      */
     private function _runInstaller($plugin_name, $install_or_uninstall = 'install', $options = array()) {
+        $plugin_name = $this->_getPluginDir($plugin_name);
         $plugin_dir = AkConfig::getDir('plugins').DS.$plugin_name;
+        var_dump($plugin_dir, $plugin_name);
         if(file_exists($plugin_dir.DS.'installer'.DS.$plugin_name.'_installer.php')){
             require_once($plugin_dir.DS.'installer'.DS.$plugin_name.'_installer.php');
             $class_name = AkInflector::camelize($plugin_name.'_installer');
@@ -514,9 +516,17 @@ class AkPluginManager
         `svn update $plugin_dir`;
     }
 
-    private function _isGitRepo($repository)
+    private function _getPluginDir($plugin_name)
     {
-        return substr($repository, -4) == '.git';
+        if($this->_isGitRepo($plugin_name)){
+            return substr($plugin_name, 0, -4);
+        }
+        return $plugin_name;
+    }
+
+    private function _isGitRepo($name)
+    {
+        return substr($name, -4) == '.git';
     }
 
     private function _shouldUseGitSubmodule() {
@@ -526,11 +536,11 @@ class AkPluginManager
     private function _installUsingGit($name, $uri, $rev = null, $force = false) {
         $rev = empty($rev) ? '' : " -r $rev ";
         $force = $force ? ' --force ' : '';
-        $plugin_dir = AK_PLUGINS_DIR.DS.substr($name, 0, -4);
+        $plugin_dir = AK_PLUGINS_DIR.DS.$this->_getPluginDir($name);
         if($this->_shouldUseGitSubmodule()){
-            echo `git submodule add $rev $uri/$name $plugin_dir`;
+            `git submodule add $rev $uri/$name $plugin_dir`;
         }else{
-            echo `git clone $force $rev $uri/$name $plugin_dir`;
+            `git clone $force $rev $uri/$name $plugin_dir`;
         }
     }
 
