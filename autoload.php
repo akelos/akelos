@@ -31,9 +31,9 @@ if(!defined('AK_BASE_DIR')){
     define('AK_SKIP_ENV_CONFIG', true);
 }
 
-defined('AK_SKIP_ENV_CONFIG')       || define('AK_SKIP_ENV_CONFIG',         false);
-defined('AK_FRAMEWORK_DIR')     || define('AK_FRAMEWORK_DIR',       str_replace(DS.'autoload.php','',__FILE__));
-defined('AK_TESTING_NAMESPACE') || define('AK_TESTING_NAMESPACE',   'akelos');
+defined('AK_SKIP_ENV_CONFIG')   || define('AK_SKIP_ENV_CONFIG', false);
+defined('AK_FRAMEWORK_DIR')     || define('AK_FRAMEWORK_DIR', str_replace(DS.'autoload.php','',__FILE__));
+defined('AK_TESTING_NAMESPACE') || define('AK_TESTING_NAMESPACE', 'akelos');
 
 /**
  * Paths for the frameworks in Akelos
