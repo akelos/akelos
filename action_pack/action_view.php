@@ -353,8 +353,8 @@ class AkActionView
     *  This will render the partial "advertiser/_ad.tpl" regardless of which controller this is being called from.
     */
     public function renderPartial($partial_path, $object, $local_assigns = array()) {
-        $path = $this->_partialPathPiece($partial_path);
-        $partial_name = $this->_partialPathName($partial_path);
+        $path = $this->partialPathPiece($partial_path);
+        $partial_name = $this->partialPathName($partial_path);
         $local_assigns = array_merge((array)@$this->controller->_assigns, (array)$local_assigns);
         $this->_addObjectToLocalAssigns_($partial_name, $local_assigns, $object);
         return $this->renderFile((empty($path) ? '' : $path.DS).'_'.$partial_name, true, $local_assigns);
@@ -377,8 +377,8 @@ class AkActionView
         }
 
         if (!empty($partial_spacer_template)){
-            $spacer_path = $this->_partialPathPiece($partial_spacer_template);
-            $spacer_name = $this->_partialPathName($partial_spacer_template);
+            $spacer_path = $this->partialPathPiece($partial_spacer_template);
+            $spacer_name = $this->partialPathName($partial_spacer_template);
             return join((empty($spacer_path) ? '' : $spacer_path.DS).'_'.$spacer_name,$collection_of_partials);
         }else{
             return join('',$collection_of_partials);
@@ -397,20 +397,7 @@ class AkActionView
         return $this->renderPartialCollection($partial_name, $collection, $partial_spacer_template, $local_assigns);
     }
 
-    protected function getLocalAssigns($extra_assigns = array()){
-        $controller_extras = isset($this->controller) ? array('controller_name' => $this->controller->getControllerName(), 'controller' => $this->controller) : array();
-        $result = array_merge(
-        $this->getGlobals(),
-        $this->assigns,
-        $this->_local_assigns,
-        $extra_assigns,
-        $controller_extras
-        );
-
-        return $result;
-    }
-
-    protected function _partialPathPiece($partial_path) {
+    public function partialPathPiece($partial_path) {
         if(strstr($partial_path, '/')){
             $dir_name = dirname($partial_path);
             if(strstr($dir_name,'/')){
@@ -423,8 +410,21 @@ class AkActionView
         }
     }
 
-    protected function _partialPathName($partial_path) {
+    public function partialPathName($partial_path) {
         return strstr($partial_path, '/') ? basename($partial_path) : $partial_path;
+    }
+
+    protected function getLocalAssigns($extra_assigns = array()){
+        $controller_extras = isset($this->controller) ? array('controller_name' => $this->controller->getControllerName(), 'controller' => $this->controller) : array();
+        $result = array_merge(
+        $this->getGlobals(),
+        $this->assigns,
+        $this->_local_assigns,
+        $extra_assigns,
+        $controller_extras
+        );
+
+        return $result;
     }
 
     protected function _partialCounterName($partial_name) {
