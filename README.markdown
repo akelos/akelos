@@ -18,31 +18,67 @@ The tutorial
 Perhaps the easiest way to lear about Akelos is to get your hands on the tutorials you can find on the docs folder.
 
 
-Setting up the framework.
+Installing Akelos
 ---------------------------------------
-Once you checkout the code you'll need to make available the folder ./public
-to your webserver with a command like:
+In most cases, the easiest way to install Akelos is to unpack the Akelos tar.gz/zip file.
 
-    ln -s  /home/bermi/akelos_framework/public /usr/htdocs/akelos
+NOTE: If you want to keep up with cutting-edge changes to Akelos, you'll want to clone the ["Akelos source code"](http://github.com/akelos/akelos/tree/master) from github. This is not recommended as an option for beginners, though.
 
-Then just point your browser to that url and follow the steps.
+### Creating the Blog Application
 
-You will also need to make sure that mod_rewrite is loaded into Apache,
-and that it can be controlled from .htaccess files, to do this make sure that
-the Apache configuration directive AllowOverride is set to 'All' (you may
-allow only the specific directives for mod_rewrite), for the directory your
-project will be accessed from.
+Open a terminal, navigate to the folder where you uncompressed Akelos and type:
 
+    $ ./akelos /path/to/your/new/site
 
-If you have problems with the web setup you can copy and edit
-config/DEFAULT-config.php and config/DEFAULT-routes.php. You might also need
-to edit the  .htaccess files in ./ and ./public/  and un-comment/edit the
-"# RewriteBase" directive so it matches to your url path.
+This will create an Akelos application.
 
-All the configuration params are on /lib/constants.php If you define any of
-them in your /config/config.php, /config/development.php, 
-/config/production.php or /config/testing.php the default setting will be
-overwritten.
+TIP: You can see all of the switches that the Akelos application builder accepts by running **./akelos -h**.
+
+After you create the blog application, switch to its folder to continue work directly in that application:
+
+    $ cd /path/to/your/new/site
+
+Now create the database configuration file by running:
+
+    $ ./script/configure 
+
+Alternatively you can manually edit _config/DEFAULT-config.php_ and save it as _config/config.php_
+
+In any case, Akelos will create a folder with the name of your new _site_ at the specified path. Here's a basic rundown on the function of each folder that Akelos creates in a new application by default:
+
+* **README.textile** - This is a brief instruction manual for your application. Use it to tell others what your application does, how to set it up, and so on.
+* **makefile.php** - This file contains batch jobs that can be run from the terminal.
+* **app/** - Contains the controllers, models, and views for your application. You'll focus on this folder for the remainder of this guide.
+* **config/** - Configure your application's runtime rules, routes, database, and more.
+* **doc/** - In-depth documentation for your application.
+* **lib/** - Extended modules for your application
+* **log/** - Application log files.
+* **makelos** - Makelos is a general-purpose command-runner that Akelos uses for many things. You can see the list of available makelos commands in your application by running +./makelos -T+.
+* **public/** - The only folder seen to the world as-is.  This is where your images, javascript, stylesheets (CSS), and other static files go.
+* **scripts/** - Script runners provided by Akelos to do recurring tasks, such as code generation, plugin installation, and starting the console or the web server.
+* **test/** - Unit tests, fixtures, and other test apparatus. These are covered in "Testing Akelos Applications":testing.html 
+* **tmp/** - Temporary files
+* **vendor/** - A place for third-party code. In a typical Akelos application, this includes Akelos source code (if you install it into your project) and plugins containing additional prepackaged functionality.
+
+### Link the public folder to your webroot
+
+Once you are done with the initial setup, you'll need to make available the folder **./public** to your webserver with a command like:
+
+    $ ln -s  /path/to/your/new/site/public /usr/htdocs/akelos_application
+
+Then just point your browser to that url and follow the installation steps.
+
+### Configuring a Database
+
+Just about every Akelos application will interact with a database. The database to use is specified in a configuration file **config/database.yml**.
+
+NOTE: In case the file has not been created by **./script/configure** (or the web setup) you can do this step manually by copying **config/DEFAULT-database.yml** as **config/database.yml**
+
+If you open this file in a new Akelos application, you'll see the database configuration created by ./script/configure. The file contains sections for three different environments in which Akelos can run by default:
+
+* The **development** environment is used on your development computer as you interact manually with the application
+* The **test** environment is used to run automated tests
+* The **production** environment is used when you deploy your application for the world to use.
 
 
 Accessing the Command Line interface
@@ -66,6 +102,22 @@ Example:
 You can also use the commands generate, migrate, setup ... by calling directly
 
      ./script/generate
+
+
+### Generating a controller
+
+One of the traditional places to start with a new language is by getting some text up on screen quickly. To do that in Akelos, you need to create at minimum a controller and a view. Fortunately, you can do that in a single command. Enter this command in your terminal:
+
+    $ ./makelos generate controller home index
+
+TIP: If you're on Windows, or your PHP is set up in some non-standard fashion, you may need to explicitly pass Akelos **makelos** commands to PHP: **php makelos generate controller home index**.
+
+Akelos will create several files for you, including _app/views/home/index.html.tpl_. This is the template that will be used to display the results of the _index_ action (method) in the _home_ controller. Open this file in your text editor and edit it to contains the following code:
+
+```html
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.tpl</p>
+```
 
 
 Differences from Ruby on Rails.

@@ -141,10 +141,10 @@ $ cd /path/to/your/blog
 Now create the database configuration file by running:
 
 <shell>
-./script/configure 
+$ ./script/configure 
 </shell>
 
-Alternatively you can edit config/config-DEFAULT.php
+Alternatively you can edit config/DEFAULT-config.php
 
 In any case, Akelos will create a folder <tt>blog</tt>. Open up that folder and explore its contents. Most of the work in this tutorial will happen in the <tt>app/</tt> folder, but here's a basic rundown on the function of each folder that Akelos creates in a new application by default:
 
@@ -166,6 +166,9 @@ In any case, Akelos will create a folder <tt>blog</tt>. Open up that folder and 
 h4. Configuring a Database
 
 Just about every Akelos application will interact with a database. The database to use is specified in a configuration file, +config/database.yml+.
+
+NOTE: In case the file has not been created by ./script/configure you can do this step manually by copying +config/DEFAULT-database.yml+.
+
 If you open this file in a new Akelos application, you'll see the database configuration created by ./script/configure. The file contains sections for three different environments in which Akelos can run by default:
 
 * The +development+ environment is used on your development computer as you interact manually with the application
@@ -188,16 +191,18 @@ If you don't have any database set up, SQLite is the easiest to get installed.
 
 h5. Configuring a MySQL Database
 
-If you choose to use MySQL, your +config/database.yml+ will look a little different. Here's the development section:
+If you choose to use MySQL, your +config/database.yml+ will look a little different. Here's a possible development section for MySQL:
 
 <yaml>
+default:
+    adapter: mysql
+    
 development:
-    type: mysql
+    host: 127.0.0.1
     encoding: utf8
-    host: localhost
-    database_name: blog_development
-    user: root
-    password:
+    database: blog_development
+    user: blog
+    password: 
 </yaml>
 
 If your development computer's MySQL installation includes a root user with an empty password, this configuration should work for you. Otherwise, change the username and password in the +development+ section as appropriate.
