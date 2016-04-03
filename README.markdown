@@ -1,3 +1,7 @@
+# This project is no longer maintained and should not be used in production.
+
+This repository is kept on github just for historical reasons. This project was the migration from PHP4 to PHP5 of the Akelos Framework.
+
 Introduction.
 ---------------------------------------
 
